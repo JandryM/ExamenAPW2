@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model busModel {
+  id          Int       @id @default(autoincrement())
+  busNumber   Int 
+  brand       String
+  model       String
+  capacity    Int
+  route       routeModel[]
+}
+
+model routeModel {
+  id            Int       @id @default(autoincrement())
+  start         String
+  destination   String
+  distance      Int
+  busId         Int
+  bus           busModel @relation(fields: [busId], references: [id])
+}
